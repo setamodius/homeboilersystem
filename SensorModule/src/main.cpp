@@ -1,9 +1,22 @@
-#include <Arduino.h>
+#include <WiFi.h>
+#include <esp_now.h>
+#include <BoilerConnection.h>
 
-void setup() {
-  // put your setup code here, to run once:
+BoilerConnection *boiler;
+
+void setup()
+{
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  Serial.println(WiFi.macAddress());
+  delay(1000);
+  boiler = new BoilerConnection();
+  boiler->Start();
+  boiler->TurnOnBoiler();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+  boiler->InnerLoop();
+  delay(1000);
 }
